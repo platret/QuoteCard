@@ -4,6 +4,8 @@
 
 No accounts, no uploads — everything renders in your browser and the PNG is generated client-side.
 
+**Live:** [quotecard-lovat.vercel.app](https://quotecard-lovat.vercel.app)
+
 ## Features
 
 - ✍️ **Live editor** — quote + author, with a real-time preview.
