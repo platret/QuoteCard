@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# QuoteCard
 
-## Getting Started
+**Type your text, pick a style, export a clean image.** A fast, free quote card maker for Instagram, X, and anywhere else you share words.
 
-First, run the development server:
+No accounts, no uploads — everything renders in your browser and the PNG is generated client-side.
+
+## Features
+
+- ✍️ **Live editor** — quote + author, with a real-time preview.
+- 🎨 **8 styles** — Midnight, Paper, Sunset, Mono, Forest, Mint, Noir, Blush.
+- 📐 **4 formats** — Square (1080×1080), Portrait (1080×1350), Story (1080×1920), Landscape (1600×900).
+- 🔠 **Typography control** — left/center alignment, adjustable text size, optional quotation mark.
+- 🖼️ **Crisp PNG export** — full-resolution download, named from your quote.
+- 🔒 **Private** — nothing leaves your device.
+
+## Tech
+
+- [Next.js 16](https://nextjs.org) (App Router) + React 19
+- TypeScript
+- Tailwind CSS v4
+- [`html-to-image`](https://github.com/bubkoo/html-to-image) for client-side PNG export
+- Google Fonts: Inter, Playfair Display, Fraunces, JetBrains Mono
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build   # production build
+npm run start   # serve the production build
+npm run lint    # lint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## How export works
 
-## Learn More
+The card is rendered at its true output resolution (e.g. 1080×1080) and visually scaled down for the preview with a CSS transform. On export, `html-to-image` snapshots the unscaled node after web fonts have loaded, so the downloaded PNG is pixel-perfect regardless of your screen size.
 
-To learn more about Next.js, take a look at the following resources:
+## Project structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+  app/
+    layout.tsx      # fonts + metadata
+    page.tsx        # editor UI, state, and export
+    globals.css     # theme tokens
+  components/
+    QuoteCard.tsx   # the card, rendered at full export resolution
+  lib/
+    presets.ts      # style presets + export formats
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Adding a style
 
-## Deploy on Vercel
+Add an entry to `PRESETS` in [`src/lib/presets.ts`](src/lib/presets.ts):
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```ts
+{
+  id: "ocean",
+  name: "Ocean",
+  background: "linear-gradient(150deg, #0c4a6e, #0369a1)",
+  text: "#f0f9ff",
+  muted: "#7dd3fc",
+  accent: "#38bdf8",
+  font: "serif",
+  swatch: "linear-gradient(150deg, #0c4a6e, #0369a1)",
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy
+
+Deploys to [Vercel](https://vercel.com) with zero config — it's a standard Next.js app.
+
+```bash
+npx vercel        # preview
+npx vercel --prod # production
+```
+
+## License
+
+MIT
